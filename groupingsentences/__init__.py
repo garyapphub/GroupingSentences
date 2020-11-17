@@ -4,4 +4,5 @@ from fileload import load_cells_from_file
 from first import cells_to_groups
 from first import save_groups_to_xls
 from second import cells_to_xmind
-
+from second import gs_grouping_sentences_to_xmind
+from first import gs_grouping_sentences_to_xls

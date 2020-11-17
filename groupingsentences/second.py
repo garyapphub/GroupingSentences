@@ -136,7 +136,7 @@ def gen_my_xmind_file(top_words_list, dest_file_name, store1, store2, store3, st
     # 第2种：只保存思维导图内容content.xml核心文件，适用于没有添加评论、自定义样式和附件的情况
     xmind.save(workbook=workbook, path=dest_file_name)
 
-def cells_to_xmind:
+def cells_to_xmind(cells, outputfile, topwordscount):
     ts = datetime.datetime.now().timestamp() 
     words_already = set() #用来保存已经加入xmind列表的无需再重复加入
     illeagle_words = set() #用来排除一些不适合参与排序词根，下一步可以从文件读取次列表
@@ -165,6 +165,10 @@ def cells_to_xmind:
     print('time passed ', ts2-ts)
     print('create 4 stores time passed (seconds):', ts2-ts)
     print('save to xmind time passed (seconds):', ts3-ts2)
+
+def gs_grouping_sentences_to_xmind(inputfile, outputfile, max_items=10000, encoding='gb18030', topwordscount = 8)
+    cells = load_cells_from_file(inputfile, encoding , max_items)
+    cells_to_xmind(cells, outputfile, topwordscount)   
 
 def main(argv):
     inputfile = ''
@@ -198,9 +202,8 @@ def main(argv):
 
     print('Input file is "', inputfile)
     print('Output file is "', outputfile)
+    gs_grouping_sentences_to_xmind(inputfile, outputfile, max_items=10000, encoding='gb18030', topwordscount = 8)
 
-    cells = load_cells_from_file(inputfile, encoding , max_items)
-    cells_to_xmind(cells)   
 
 if __name__ == "__main__":
     main(sys.argv[1:])

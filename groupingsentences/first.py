@@ -78,6 +78,19 @@ def save_groups_to_xls(dest_file_name, groups):
             i = i + 1
     wb.save(dest_file_name)
 
+def gs_grouping_sentences_to_xls(inputfile, outputfile, max_items=10000, encoding='gb18030', type_of_func = 0, threshold = 0.55)
+    cells = load_cells_from_file(inputfile, encoding , max_items)
+    ts = datetime.datetime.now().timestamp() 
+    groups = cells_to_groups(cells, type_of_func, threshold)
+    print('groups items count', len(groups))
+    ts2 = datetime.datetime.now().timestamp() 
+    save_groups_to_xls(outputfile, groups)
+    ts3 = datetime.datetime.now().timestamp() 
+    print('type of compare function', type_of_func)
+    print('total cells count', len(cells))
+    print('compare sentences time passed (seconds):', ts2-ts)
+    print('save to xls time passed (seconds):', ts3-ts2) 
+
 def main(argv):
     inputfile = ''
     outputfile = ''
@@ -113,19 +126,8 @@ def main(argv):
 
     print('Input file is "', inputfile)
     print('Output file is "', outputfile)
-
-    cells = load_cells_from_file(inputfile, encoding , max_items)
-    ts = datetime.datetime.now().timestamp() 
-    groups = cells_to_groups(cells, type_of_func, threshold)
-    print('groups items count', len(groups))
-
-    ts2 = datetime.datetime.now().timestamp() 
-    save_groups_to_xls(outputfile, groups)
-    ts3 = datetime.datetime.now().timestamp() 
-    print('type of compare function', type_of_func)
-    print('total cells count', len(cells))
-    print('compare sentences time passed (seconds):', ts2-ts)
-    print('save to xls time passed (seconds):', ts3-ts2)   
+    gs_grouping_sentences_to_xls(inputfile, outputfile, max_items, encoding, type_of_func , threshold)
+   
 
 if __name__ == "__main__":
     main(sys.argv[1:])
