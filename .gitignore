@@ -62,4 +62,10 @@ Thumbs.db
 
 keras/data/
 
+*.csv
+__pycache__
+dataset
+
+*.zip
+*.xmind
 
