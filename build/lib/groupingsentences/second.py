@@ -136,7 +136,7 @@ def gen_my_xmind_file(top_words_list, dest_file_name, store1, store2, store3, st
     # 第2种：只保存思维导图内容content.xml核心文件，适用于没有添加评论、自定义样式和附件的情况
     xmind.save(workbook=workbook, path=dest_file_name)
 
-def cells_to_xmind(cells, outputfile, top_words_count):
+def cells_to_xmind(cells, outputfile, topwordscount):
     ts = datetime.datetime.now().timestamp() 
     words_already = set() #用来保存已经加入xmind列表的无需再重复加入
     illeagle_words = set() #用来排除一些不适合参与排序词根，下一步可以从文件读取次列表
