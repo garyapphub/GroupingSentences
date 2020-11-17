@@ -166,7 +166,7 @@ def cells_to_xmind(cells, outputfile, topwordscount):
     print('create 4 stores time passed (seconds):', ts2-ts)
     print('save to xmind time passed (seconds):', ts3-ts2)
 
-def gs_grouping_sentences_to_xmind(inputfile, outputfile, max_items=10000, encoding='gb18030', topwordscount = 8)
+def gs_grouping_sentences_to_xmind(inputfile, outputfile, max_items=10000, encoding='gb18030', topwordscount = 8):
     cells = load_cells_from_file(inputfile, encoding , max_items)
     cells_to_xmind(cells, outputfile, topwordscount)   
 

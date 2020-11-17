@@ -78,7 +78,7 @@ def save_groups_to_xls(dest_file_name, groups):
             i = i + 1
     wb.save(dest_file_name)
 
-def gs_grouping_sentences_to_xls(inputfile, outputfile, max_items=10000, encoding='gb18030', type_of_func = 0, threshold = 0.55)
+def gs_grouping_sentences_to_xls(inputfile, outputfile, max_items=10000, encoding='gb18030', type_of_func = 0, threshold = 0.55):
     cells = load_cells_from_file(inputfile, encoding , max_items)
     ts = datetime.datetime.now().timestamp() 
     groups = cells_to_groups(cells, type_of_func, threshold)

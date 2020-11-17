@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-:集合各种计算句子间距离的函数，可以自己选择使用
+:
 """
 
 import os
+import sys, getopt
 
 def load_cells_from_file(file_name, encoding='gb18030', max_items = 500000):
     #FILENAME = './dataset/1.csv'
+    if os.path.isfile(file_name) == False:
+        print('file not exist:', file_name)
+        sys.exit(2)
+        return
     cells = []
     count = 0
     with open(file_name, 'r', encoding=encoding) as f:
