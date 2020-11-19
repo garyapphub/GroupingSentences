@@ -44,6 +44,9 @@ def save_groups_to_xls(dest_file_name, groups):
     # 打开文件
     style0 = xlwt.easyxf('font: name Times New Roman, color-index black, bold off',
         num_format_str='#,##0.00')
+    stylered = xlwt.easyxf('font: name Times New Roman, color-index red, bold off',
+        num_format_str='#,##0.00')
+
     style1 = xlwt.easyxf(num_format_str='D-MMM-YY')
     wb = xlwt.Workbook()
     ws = wb.add_sheet('Sheet0')
@@ -56,18 +59,24 @@ def save_groups_to_xls(dest_file_name, groups):
     print('total counts', total_counts)
     max_height = (total_counts + len(sorted_word_groups) + 254)/255 # max height we need
     print('max_height', max_height)
+
+    style_index = 0
     i = 0 #column
     j = 0 #row
     for key, value in sorted_word_groups: #sort by the len of set() 
         #print('## j,i row,column',j,i)
-        ws.write(j, i, key , style0)
+        style_index = style_index + 1
+        style_item = style0
+        if style_index%2 == 0:
+            style_item = stylered
+        ws.write(j, i, key , style_item)
         j = j + 1
         if j > max_height:
             j = 0
             i = i + 1
         for value2 in sorted(value):
             #print('j,i',j,i)
-            ws.write(j, i, value2 , style0)
+            ws.write(j, i, value2 , style_item)
             j = j + 1
             if j > max_height:
                 j = 0

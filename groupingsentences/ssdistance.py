@@ -59,6 +59,7 @@ def tfidf_similarity(s1, s2):
     # 计算TF系数
     return np.dot(vectors[0], vectors[1]) / (norm(vectors[0]) * norm(vectors[1]))
 
+vectcos_cache = {}
 
 def get_word_vector(s1,s2):
     """
@@ -67,11 +68,21 @@ def get_word_vector(s1,s2):
     :return: 返回句子的余弦相似度
     """
     # 分词
-    cut1 = jieba.cut(s1)
-    cut2 = jieba.cut(s2)
-    list_word1 = (','.join(cut1)).split(',')
-    list_word2 = (','.join(cut2)).split(',')
- 
+    if s1 in vectcos_cache:
+        list_word1 = vectcos_cache[s1]
+    else:
+        cut1 = jieba.cut(s1)
+        list_word1 = (','.join(cut1)).split(',')
+        vectcos_cache[s1] = list_word1
+
+    if s2 in vectcos_cache:
+        list_word2 = vectcos_cache[s2]
+    else:
+        cut2 = jieba.cut(s2)
+        list_word2 = (','.join(cut2)).split(',')
+        vectcos_cache[s2] = list_word2
+
+    #print(list_word1,'###',list_word2)
     # 列出所有的词,取并集
     key_word = list(set(list_word1 + list_word2))
     # 给定形状和类型的用0填充的矩阵存储向量
@@ -103,7 +114,8 @@ def cos_dist(vec1,vec2):
     dist1=float(np.dot(vec1,vec2)/(np.linalg.norm(vec1)*np.linalg.norm(vec2)))
     return dist1
 
-def vectcos_similarity(s1, s2):  
+
+def vectcos_similarity(s1, s2):
     vec1,vec2=get_word_vector(s1,s2)
     dist1=cos_dist(vec1,vec2)
     return dist1
