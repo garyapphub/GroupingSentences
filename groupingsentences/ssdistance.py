@@ -10,6 +10,11 @@ from scipy.linalg import norm
 import jieba
 import numpy as np
 import re
+#for word2vec
+import gensim
+import jieba
+import numpy as np
+from scipy.linalg import norm
 
 def edit_distance(s1, s2):
     return distance.levenshtein(s1, s2)
@@ -120,6 +125,43 @@ def vectcos_similarity(s1, s2):
     dist1=cos_dist(vec1,vec2)
     return dist1
 
+
+model_file = './groupingsentences/dataset/news_12g_baidubaike_20g_novel_90g_embedding_64.bin'
+model = 0
+word2vector_cache = {}
+
+def vector_similarity(s1, s2):
+    def sentence_vector(s):
+        global model
+        if model == 0:
+            model = gensim.models.KeyedVectors.load_word2vec_format(model_file, binary=True)
+        words = jieba.lcut(s)
+        v = np.zeros(64)
+        for word in words:
+            try:
+                v_word = model[word]
+                v += v_word
+            except:
+                v = v
+        v /= len(words)
+        return v
+
+    if s1 in word2vector_cache:
+        v1 = word2vector_cache[s1]
+    else:
+        v1 = sentence_vector(s1)
+        word2vector_cache[s1] = v1
+
+    if s2 in word2vector_cache:
+        v2 = word2vector_cache[s2]
+    else:
+        v2 = sentence_vector(s2)
+        word2vector_cache[s2] = v2
+    print(v1)
+    print(v2)
+    return np.dot(v1, v2) / (norm(v1) * norm(v2))
+
+
 def get_funcname_by_func_type_id(func_type_id):
     if func_type_id == 0:
         return 'vectcos_similarity'
@@ -131,6 +173,8 @@ def get_funcname_by_func_type_id(func_type_id):
         return 'tf_similarity'
     elif func_type_id == 4:
         return 'tfidf_similarity'
+    elif func_type_id == 5:
+        return 'vector_similarity'
     else:
         return 'vectcos_similarity'
 
@@ -151,6 +195,8 @@ def get_similarity_val_by_sentences(s1, s2, type_of_func = 0):
         return tf_similarity(s1, s2)
     elif type_of_func == 4:
         return tfidf_similarity(s1, s2)
+    elif type_of_func == 5:
+        return vector_similarity(s1, s2)
     else:
         return vectcos_similarity(s1, s2)
 
