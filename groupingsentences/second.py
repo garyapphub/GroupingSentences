@@ -193,7 +193,7 @@ def cells_to_xmind(cells, outputfile, top_words_count = 8, topword = '', stop_wo
     ### https://raw.githubusercontent.com/ldkrsi/jieba-zh_TW/master/jieba/dict.txt
 
     #should remove later
-    jieba.set_dictionary('./groupingsentences/dataset/twdict.txt')
+    #jieba.set_dictionary('./groupingsentences/dataset/twdict.txt')
  
     words_already = set() #用来保存已经加入xmind列表的无需再重复加入
     stop_words = set() #用来排除一些不适合参与排序词根，下一步可以从文件读取次列表
